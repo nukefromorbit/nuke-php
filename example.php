@@ -4,10 +4,6 @@ require 'vendor/autoload.php';
 
 use Nuke\Nuke;
 use Nuke\Event;
-use Nuke\Exceptions\InvalidIdentifierException;
-use Nuke\Exceptions\InvalidSignatureException;
-use Nuke\Exceptions\MissingIdentifierException;
-use Nuke\Exceptions\MissingSecretException;
 
 $nukeIdentifier = 'da0119a2(...)75f45571';
 $nukeSecret = 'f73c546f(..)6fa03bff';
