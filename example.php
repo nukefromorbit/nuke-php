@@ -32,9 +32,20 @@ try {
         $payload
     );
     echo 'Nuke Identifier and Signature verified with success.' . "\n";
+    echo "\n";
 
     $event = Event::construct($payload);
-    var_dump($event);
+    echo 'Event loaded with success.' . "\n";
+    echo "\n";
+
+    $payload['event']['data']['token'] = strrev($event->token);
+
+    echo 'Response:' . "\n";
+    echo '  Headers:' . "\n";
+    echo '    Nuke-Identifier: ' . Nuke::$identifier . "\n";
+    echo '    Nuke-Signature: ' . Nuke::getSignature(time(), $payload) . "\n";
+    echo "\n";
+    echo '  Payload: ' . json_encode($payload) . "\n";
 } catch (Exception $e) {
     echo get_class($e) . ': ' . $e->getMessage() . "\n";
 }

@@ -26,7 +26,7 @@ class Nuke
      *
      * @var string|null
      */
-    private static ?string $identifier = null;
+    public static ?string $identifier = null;
 
     /**
      * Nuke Secret
