@@ -2,9 +2,7 @@
 
 namespace Nuke;
 
-use Defuse\Crypto\Key;
 use Defuse\Crypto\Crypto;
-use Defuse\Crypto\Exception\BadFormatException;
 use Defuse\Crypto\Exception\EnvironmentIsBrokenException;
 use Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException;
 
@@ -13,7 +11,6 @@ use Nuke\Exceptions\InvalidSignatureException;
 use Nuke\Exceptions\MissingSecretException;
 use Nuke\Exceptions\MissingIdentifierException;
 
-// TODO: identifier and secret private?
 // TODO: PHP-Defuse is specific to PHP. We need to make sure that the encrypted value can also be decrypted with other
 //  programming Languages. Or create our own little encryption library?
 
@@ -29,14 +26,14 @@ class Nuke
      *
      * @var string|null
      */
-    public static ?string $identifier = null;
+    private static ?string $identifier = null;
 
     /**
      * Nuke Secret
      *
      * @var string|null
      */
-    public static ?string $secret = null;
+    private static ?string $secret = null;
 
     /**
      * Set Nuke Identifier
@@ -66,16 +63,15 @@ class Nuke
      * @param string $value
      * @return string
      * @throws MissingSecretException
-     * @throws BadFormatException
      * @throws EnvironmentIsBrokenException
      */
     public static function encrypt(string $value): string
     {
         self::verifyMissingSecret();
 
-        return Crypto::encrypt(
+        return Crypto::encryptWithPassword(
             $value,
-            Key::loadFromAsciiSafeString(self::$secret)
+            self::$secret
         );
     }
 
@@ -85,7 +81,6 @@ class Nuke
      * @param string $value
      * @return string
      * @throws MissingSecretException
-     * @throws BadFormatException
      * @throws EnvironmentIsBrokenException
      * @throws WrongKeyOrModifiedCiphertextException
      */
@@ -93,9 +88,9 @@ class Nuke
     {
         self::verifyMissingSecret();
 
-        return Crypto::decrypt(
+        return Crypto::decryptWithPassword(
             $value,
-            Key::loadFromAsciiSafeString(self::$secret)
+            self::$secret
         );
     }
 
