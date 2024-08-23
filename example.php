@@ -3,6 +3,7 @@
 require 'vendor/autoload.php';
 
 use Nuke\Nuke;
+use Nuke\Event;
 use Nuke\Exceptions\InvalidIdentifierException;
 use Nuke\Exceptions\InvalidSignatureException;
 use Nuke\Exceptions\MissingIdentifierException;
@@ -34,8 +35,10 @@ try {
         $headers['Nuke-Signature'],
         $payload
     );
-
     echo 'Nuke Identifier and Signature verified with success.' . "\n";
-} catch (InvalidIdentifierException|InvalidSignatureException|MissingIdentifierException|MissingSecretException $e) {
-    echo get_class($e) . "\n";
+
+    $event = Event::construct($payload);
+    var_dump($event);
+} catch (Exception $e) {
+    echo get_class($e) . ': ' . $e->getMessage() . "\n";
 }
