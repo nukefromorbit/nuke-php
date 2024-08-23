@@ -2,14 +2,19 @@
 
 namespace Nuke\Events;
 
-class AuthorizeEvent extends AbstractEvent
+class WebhookNukeEvent extends AbstractEvent
 {
-    private const NAME = 'authorize';
+    private const NAME = 'nuke';
 
     /**
      * @var string|null
      */
-    public ?string $state = null;
+    public ?string $token = null;
+
+    /**
+     * @var array|null
+     */
+    public ?array $actions = null;
 
     /**
      * @inheritDoc
