@@ -16,6 +16,9 @@ use Nuke\Exceptions\MissingIdentifierException;
 
 class Nuke
 {
+    public const HEADER_X_NUKE_IDENTIFIER = 'X-Nuke-Identifier';
+    public const HEADER_X_NUKE_SIGNATURE = 'X-Nuke-Signature';
+
     private const HEADER_NUKE_SIGNATURE_ALGORITHM = 'sha256';
     private const HEADER_NUKE_SIGNATURE_VALUE_FORMAT = 't=%1$d, v=%2$s';
     private const HEADER_NUKE_SIGNATURE_VALUE_REGEX = '/^t=(\d+), v=([0-9a-zA-Z]+)$/';

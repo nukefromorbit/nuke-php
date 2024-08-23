@@ -5,10 +5,10 @@ namespace Nuke;
 // TODO: Event naming?
 // TODO: Event token/state naming.
 
-use Nuke\Events\WebhookNukeEvent;
-use Nuke\Events\WebhookRevokeEvent;
-use Nuke\Events\WebhookVerificationEvent;
-use Nuke\Events\BrowserAuthorizeEvent;
+use Nuke\Events\NukeEvent;
+use Nuke\Events\RevokeEvent;
+use Nuke\Events\VerificationEvent;
+use Nuke\Events\AuthorizeEvent;
 use Nuke\Exceptions\MissingEventPropertyException;
 
 class Event
@@ -17,34 +17,33 @@ class Event
      * Construct event
      *
      * @param array|null $data
-     * @return WebhookVerificationEvent|WebhookRevokeEvent|WebhookNukeEvent|BrowserAuthorizeEvent
+     * @return VerificationEvent|RevokeEvent|NukeEvent|AuthorizeEvent
      * @throws MissingEventPropertyException
      */
-    public static function construct(
-        ?array $data
-    ): WebhookVerificationEvent|WebhookRevokeEvent|WebhookNukeEvent|BrowserAuthorizeEvent {
-        switch ($data['event']['type'] ?? $data['type'] ?? null) {
-            case WebhookVerificationEvent::getName():
-                $event = (new WebhookVerificationEvent());
+    public static function construct(?array $data): VerificationEvent|RevokeEvent|NukeEvent|AuthorizeEvent
+    {
+        switch ($data['event']['type'] ?? null) {
+            case VerificationEvent::getName():
+                $event = (new VerificationEvent());
                 $event->token = ($data['event']['data']['token'] ?? null);
                 return $event;
 
-            case WebhookRevokeEvent::getName():
-                $event = (new WebhookRevokeEvent());
+            case RevokeEvent::getName():
+                $event = (new RevokeEvent());
                 $event->token = ($data['event']['data']['token'] ?? null);
                 return $event;
 
-            case WebhookNukeEvent::getName():
-                $event = (new WebhookNukeEvent());
+            case NukeEvent::getName():
+                $event = (new NukeEvent());
                 $event->token = ($data['event']['data']['token'] ?? null);
                 $event->actions = ($data['event']['data']['actions'] ?? null);
                 return $event;
 
-            case BrowserAuthorizeEvent::getName():
-                $event = (new BrowserAuthorizeEvent());
-                $event->redirect_uri = ($data['redirect_uri'] ?? null);
-                $event->state = ($data['state'] ?? null);
-                $event->nuke_identifier = ($data['nuke_identifier'] ?? null);
+            case AuthorizeEvent::getName():
+                $event = (new AuthorizeEvent());
+                $event->redirect_uri = ($data['event']['data']['redirect_uri'] ?? null);
+                $event->state = ($data['event']['data']['state'] ?? null);
+                $event->nuke_identifier = ($data['event']['data']['nuke_identifier'] ?? null);
                 return $event;
 
             default:
