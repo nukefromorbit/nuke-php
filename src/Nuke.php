@@ -8,6 +8,8 @@ use Defuse\Crypto\Exception\BadFormatException;
 use Defuse\Crypto\Exception\EnvironmentIsBrokenException;
 use Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException;
 
+use Nuke\Exceptions\InvalidIdentifierException;
+use Nuke\Exceptions\InvalidSignatureException;
 use Nuke\Exceptions\MissingSecretException;
 use Nuke\Exceptions\MissingIdentifierException;
 
@@ -19,6 +21,7 @@ class Nuke
 {
     private const HEADER_NUKE_SIGNATURE_ALGORITHM = 'sha256';
     private const HEADER_NUKE_SIGNATURE_VALUE_FORMAT = 't=%1$d, v=%2$s';
+    private const HEADER_NUKE_SIGNATURE_VALUE_REGEX = '/^t=(\d+), v=([0-9a-zA-Z]+)$/';
     private const HEADER_NUKE_SIGNATURE_VALUE_PAYLOAD_FORMAT = '%1$d.%2$s';
 
     /**
@@ -62,11 +65,14 @@ class Nuke
      *
      * @param string $value
      * @return string
+     * @throws MissingSecretException
      * @throws BadFormatException
      * @throws EnvironmentIsBrokenException
      */
     public static function encrypt(string $value): string
     {
+        self::verifyMissingSecret();
+
         return Crypto::encrypt(
             $value,
             Key::loadFromAsciiSafeString(self::$secret)
@@ -78,12 +84,15 @@ class Nuke
      *
      * @param string $value
      * @return string
+     * @throws MissingSecretException
      * @throws BadFormatException
      * @throws EnvironmentIsBrokenException
      * @throws WrongKeyOrModifiedCiphertextException
      */
     public static function decrypt(string $value): string
     {
+        self::verifyMissingSecret();
+
         return Crypto::decrypt(
             $value,
             Key::loadFromAsciiSafeString(self::$secret)
@@ -131,6 +140,40 @@ class Nuke
                 self::$secret
             ),
         );
+    }
+
+    /**
+     * Verify identifier and signature
+     *
+     * @param string $identifier
+     * @param string $signature
+     * @param array $data
+     * @return void
+     * @throws InvalidIdentifierException
+     * @throws InvalidSignatureException
+     * @throws MissingIdentifierException
+     * @throws MissingSecretException
+     */
+    public static function verifyIdentifierAndSignature(string $identifier, string $signature, array $data): void
+    {
+        self::verifyMissingIdentifier();
+
+        if ($identifier !== self::$identifier) {
+            throw new InvalidIdentifierException();
+        }
+
+        self::verifyMissingSecret();
+
+        preg_match(self::HEADER_NUKE_SIGNATURE_VALUE_REGEX, $signature, $matches);
+        if (!hash_equals(
+            self::getSignature(
+                (int)($matches[1] ?? null),
+                $data
+            ),
+            $signature
+        )) {
+            throw new InvalidSignatureException();
+        }
     }
 
     /**
