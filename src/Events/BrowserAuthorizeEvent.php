@@ -2,9 +2,9 @@
 
 namespace Nuke\Events;
 
-class AuthorizeEvent extends AbstractEvent
+class BrowserAuthorizeEvent extends AbstractEvent
 {
-    private const NAME = 'authorize';
+    private const NAME = 'browser-authorize';
 
     /**
      * @var string|null
@@ -14,12 +14,12 @@ class AuthorizeEvent extends AbstractEvent
     /**
      * @var string|null
      */
-    public ?string $state = null;
+    public ?string $nuke_identifier = null;
 
     /**
      * @var string|null
      */
-    public ?string $nuke_identifier = null;
+    public ?string $nuke_token = null;
 
     /**
      * @inheritDoc

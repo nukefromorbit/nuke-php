@@ -4,55 +4,56 @@ require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . 
 
 use Nuke\Nuke;
 use Nuke\Event;
-use Nuke\Events\VerificationEvent;
-
-// Initialize Nuke Service.
-$nukeIdentifier = 'da0119a2(...)75f45571';
-$nukeSecret = 'f73c546f(..)6fa03bff';
-
-Nuke::setIdentifier($nukeIdentifier);
-Nuke::setSecret($nukeSecret);
+use Nuke\Events\WebhookVerifyEvent;
 
 try {
-    // Request Simulation, this will come from the Nuke API.
-    $payload = [
+    // Randomly generated.
+    $nukeIdentifier = bin2hex(random_bytes(16));
+    $nukeSecret = bin2hex(random_bytes(32));
+
+    // Initialize Nuke Service.
+    Nuke::setIdentifier($nukeIdentifier);
+    Nuke::setSecret($nukeSecret);
+
+    // Request details.
+    $_GET = [
         'event' => [
-            'type' => VerificationEvent::getName(),
+            'type' => WebhookVerifyEvent::getName(),
             'data' => [
-                'token' => bin2hex(random_bytes(128 / 2)),
+                'token' => bin2hex(random_bytes(128)),
             ],
         ],
     ];
+
+    // Request simulation, this will come from the Nuke API.
+    $payload = $_GET;
     $headers = [
         Nuke::HEADER_X_NUKE_IDENTIFIER => Nuke::$identifier,
         Nuke::HEADER_X_NUKE_SIGNATURE => Nuke::getSignature(time(), $payload),
     ];
 
-    // Validate Request to make sure it's from the Nuke API.
+    // Validate request to make sure it's from the Nuke API.
     Nuke::verifyIdentifierAndSignature(
         $headers[Nuke::HEADER_X_NUKE_IDENTIFIER],
         $headers[Nuke::HEADER_X_NUKE_SIGNATURE],
         $payload
     );
 
-    // Event Construct which will return a VerificationEvent class.
+    // Event construct which will return a WebhookVerifyEvent class.
     $event = Event::construct($payload);
 
     // Response, this will be a response to the webhook call.
+    // The token needs to be reversed.
     $payload = [
         'event' => [
-            'type' => VerificationEvent::getName(),
+            'type' => WebhookVerifyEvent::getName(),
             'data' => [
                 'token' => strrev($event->token),
             ],
         ],
     ];
-    $headers = [
-        Nuke::HEADER_X_NUKE_IDENTIFIER => Nuke::$identifier,
-        Nuke::HEADER_X_NUKE_SIGNATURE => Nuke::getSignature(time(), $payload),
-    ];
 
-    echo 'Headers: ' . json_encode($headers, JSON_PRETTY_PRINT) . "\n";
+    echo 'Headers: ' . json_encode(['Status-Code' => '200 OK',], JSON_PRETTY_PRINT) . "\n";
     echo 'Payload: ' . json_encode($payload, JSON_PRETTY_PRINT) . "\n";
 } catch (Exception $e) {
     echo get_class($e) . ': ' . $e->getMessage() . "\n";

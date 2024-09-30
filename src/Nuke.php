@@ -2,17 +2,14 @@
 
 namespace Nuke;
 
-use Defuse\Crypto\Crypto;
-use Defuse\Crypto\Exception\EnvironmentIsBrokenException;
-use Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException;
-
-use Nuke\Exceptions\InvalidIdentifierException;
-use Nuke\Exceptions\InvalidSignatureException;
 use Nuke\Exceptions\MissingSecretException;
 use Nuke\Exceptions\MissingIdentifierException;
-
-// TODO: PHP-Defuse is specific to PHP. We need to make sure that the encrypted value can also be decrypted with other
-//  programming Languages. Or create our own little encryption library?
+use Nuke\Exceptions\InvalidSignatureException;
+use Nuke\Exceptions\InvalidIdentifierException;
+use Nuke\Exceptions\CryptEncryptException;
+use Nuke\Exceptions\CryptDecryptException;
+use Nuke\Exceptions\CryptInvalidKeyException;
+use Nuke\Exceptions\CryptInvalidPayloadException;
 
 class Nuke
 {
@@ -55,7 +52,7 @@ class Nuke
      * @param string|null $secret
      * @return void
      */
-    public static function setSecret(?string $secret): void
+    public static function setSecret(#[\SensitiveParameter] ?string $secret): void
     {
         self::$secret = $secret;
     }
@@ -65,17 +62,15 @@ class Nuke
      *
      * @param string $value
      * @return string
+     * @throws CryptInvalidKeyException
+     * @throws CryptEncryptException
      * @throws MissingSecretException
-     * @throws EnvironmentIsBrokenException
      */
-    public static function encrypt(string $value): string
+    public static function encrypt(#[\SensitiveParameter] string $value): string
     {
         self::verifyMissingSecret();
 
-        return Crypto::encryptWithPassword(
-            $value,
-            self::$secret
-        );
+        return Crypt::encrypt($value, self::$secret);
     }
 
     /**
@@ -83,18 +78,16 @@ class Nuke
      *
      * @param string $value
      * @return string
+     * @throws CryptDecryptException
+     * @throws CryptInvalidKeyException
+     * @throws CryptInvalidPayloadException
      * @throws MissingSecretException
-     * @throws EnvironmentIsBrokenException
-     * @throws WrongKeyOrModifiedCiphertextException
      */
     public static function decrypt(string $value): string
     {
         self::verifyMissingSecret();
 
-        return Crypto::decryptWithPassword(
-            $value,
-            self::$secret
-        );
+        return Crypt::decrypt($value, self::$secret);
     }
 
     /**
