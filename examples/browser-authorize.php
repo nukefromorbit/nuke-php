@@ -34,7 +34,7 @@ try {
     // Event construct which will return an BrowserAuthorizeEvent class.
     $event = Event::construct($payload);
 
-    // Validate event State to make sure it's encrypted with the known key.
+    // Validate event state to make sure it's encrypted with the known key.
     Nuke::decrypt($event->nuke_token);
 
     // This token will be used to confirm the authorize, revoke access and perform Nuke actions.

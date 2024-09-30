@@ -16,7 +16,7 @@ try {
     Nuke::setSecret($nukeSecret);
 
     // Request details.
-    $_GET = [
+    $_POST = [
         'event' => [
             'type' => WebhookRevokeEvent::getName(),
             'data' => [
@@ -26,7 +26,7 @@ try {
     ];
 
     // Request simulation, this will come from the Nuke API.
-    $payload = $_GET;
+    $payload = $_POST;
     $headers = [
         Nuke::HEADER_X_NUKE_IDENTIFIER => Nuke::$identifier,
         Nuke::HEADER_X_NUKE_SIGNATURE => Nuke::getSignature(time(), $payload),
