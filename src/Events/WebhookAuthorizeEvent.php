@@ -4,7 +4,7 @@ namespace Nuke\Events;
 
 class WebhookAuthorizeEvent extends AbstractEvent
 {
-    private const NAME = 'webhook-authorize';
+    private const NAME = 'authorize';
 
     /**
      * @var string|null

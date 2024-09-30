@@ -4,7 +4,6 @@ namespace Nuke;
 
 use Nuke\Events\WebhookNukeEvent;
 use Nuke\Events\WebhookRevokeEvent;
-use Nuke\Events\WebhookVerifyEvent;
 use Nuke\Events\WebhookAuthorizeEvent;
 use Nuke\Events\BrowserAuthorizeEvent;
 use Nuke\Exceptions\MissingEventPropertyException;
@@ -15,20 +14,15 @@ class Event
      * Construct event
      *
      * @param array|null $data
-     * @return WebhookAuthorizeEvent|WebhookVerifyEvent|WebhookRevokeEvent|WebhookNukeEvent|BrowserAuthorizeEvent
+     * @return WebhookAuthorizeEvent|WebhookRevokeEvent|WebhookNukeEvent|BrowserAuthorizeEvent
      * @throws MissingEventPropertyException
      */
     public static function construct(
         ?array $data
-    ): WebhookAuthorizeEvent|WebhookVerifyEvent|WebhookRevokeEvent|WebhookNukeEvent|BrowserAuthorizeEvent {
+    ): WebhookAuthorizeEvent|WebhookRevokeEvent|WebhookNukeEvent|BrowserAuthorizeEvent {
         switch ($data['event']['type'] ?? null) {
             case WebhookAuthorizeEvent::getName():
                 $event = (new WebhookAuthorizeEvent());
-                $event->token = ($data['event']['data']['token'] ?? null);
-                return $event;
-
-            case WebhookVerifyEvent::getName():
-                $event = (new WebhookVerifyEvent());
                 $event->token = ($data['event']['data']['token'] ?? null);
                 return $event;
 

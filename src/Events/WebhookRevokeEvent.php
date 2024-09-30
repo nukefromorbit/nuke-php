@@ -4,7 +4,7 @@ namespace Nuke\Events;
 
 class WebhookRevokeEvent extends AbstractEvent
 {
-    private const NAME = 'webhook-revoke';
+    private const NAME = 'revoke';
 
     /**
      * @var string|null

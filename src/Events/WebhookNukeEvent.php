@@ -4,7 +4,7 @@ namespace Nuke\Events;
 
 class WebhookNukeEvent extends AbstractEvent
 {
-    private const NAME = 'webhook-nuke';
+    private const NAME = 'nuke';
 
     /**
      * @var string|null

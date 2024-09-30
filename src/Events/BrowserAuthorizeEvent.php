@@ -4,7 +4,7 @@ namespace Nuke\Events;
 
 class BrowserAuthorizeEvent extends AbstractEvent
 {
-    private const NAME = 'browser-authorize';
+    private const NAME = 'authorize';
 
     /**
      * @var string|null
