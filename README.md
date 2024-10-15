@@ -86,5 +86,3 @@ sequenceDiagram
 
     service_api -->> nuke: headers:<br>Status-Code: 204 No Content
 ```
-
-## Webhook Verify Event
