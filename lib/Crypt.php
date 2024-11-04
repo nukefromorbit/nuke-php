@@ -3,7 +3,6 @@
 namespace Nuke;
 
 use Exception;
-
 use Nuke\Exceptions\CryptDecryptException;
 use Nuke\Exceptions\CryptEncryptException;
 use Nuke\Exceptions\CryptInvalidKeyException;
@@ -82,7 +81,7 @@ class Crypt
 
         $payload = self::getJsonPayload($payload);
 
-        $iv = base64_decode($payload['iv']);
+        $iv = base64_decode($payload['iv'], true);
 
         if (!self::isMacValid($payload, $key)) {
             throw new CryptDecryptException();
@@ -128,7 +127,7 @@ class Crypt
      */
     protected static function getJsonPayload(string $payload): array
     {
-        $payload = json_decode(base64_decode($payload), true);
+        $payload = json_decode(base64_decode($payload, true), true);
 
         if (!self::isPayloadValid($payload)) {
             throw new CryptInvalidPayloadException();

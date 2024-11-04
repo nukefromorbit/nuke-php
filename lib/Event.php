@@ -98,9 +98,9 @@ class Event
                 Nuke::decrypt(($_GET['nuke_token'] ?? null));
 
                 $event = (new BrowserAuthorizeEvent());
-                $event->redirect_uri = ($_GET['redirect_uri'] ?? null);
                 $event->nuke_identifier = ($_GET['nuke_identifier'] ?? null);
                 $event->nuke_token = ($_GET['nuke_token'] ?? null);
+                $event->redirect_uri = ($_GET['redirect_uri'] ?? null);
                 return $event;
 
             default:

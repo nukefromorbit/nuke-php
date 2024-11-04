@@ -9,17 +9,17 @@ class BrowserAuthorizeEvent extends AbstractEvent
     /**
      * @var string|null
      */
-    public ?string $redirect_uri = null;
-
-    /**
-     * @var string|null
-     */
     public ?string $nuke_identifier = null;
 
     /**
      * @var string|null
      */
     public ?string $nuke_token = null;
+
+    /**
+     * @var string|null
+     */
+    public ?string $redirect_uri = null;
 
     /**
      * @inheritDoc

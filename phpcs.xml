@@ -1,0 +1,10 @@
+<!-- @see https://pear.php.net/manual/en/package.php.php-codesniffer.annotated-ruleset.php -->
+<ruleset name="PHPCS">
+    <description>PHPCS</description>
+    <file>lib</file>
+    <file>tests</file>
+    <file>examples</file>
+    <arg value="p"/>
+    <arg value="s"/>
+    <rule ref="PSR12"/>
+</ruleset>

@@ -31,8 +31,10 @@ try {
     // You will have to internally save this token against the user.
     $token = bin2hex(random_bytes(128));
 
-    // Tip: You can generate a random token and send it as Nuke::encrypt(json_encode(['user_id' => ..., 'token' => $token,])).
-    // This will allow you to identify the user faster for the nuke, revoke, etc... events and verify the token against it.
+    // Tip: You can generate a random token and send it as
+    // Nuke::encrypt(json_encode(['user_id' => ..., 'token' => $token,])).
+    // This will allow you to identify the user faster for the nuke, revoke, etc... events
+    // and verify the token against it.
 
     // Response, this will be a redirect with http_build_query to the redirect_uri.
     $payload = [

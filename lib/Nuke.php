@@ -159,13 +159,15 @@ class Nuke
         self::verifyMissingSecret();
 
         preg_match(self::HEADER_NUKE_SIGNATURE_VALUE_REGEX, $signature, $matches);
-        if (!hash_equals(
-            self::getSignature(
-                (int)($matches[1] ?? null),
-                $data
-            ),
-            $signature
-        )) {
+        if (
+            !hash_equals(
+                self::getSignature(
+                    (int)($matches[1] ?? null),
+                    $data
+                ),
+                $signature
+            )
+        ) {
             throw new InvalidSignatureException();
         }
     }
@@ -178,7 +180,7 @@ class Nuke
      */
     private static function verifyMissingIdentifier(): void
     {
-        if (!(is_string(self::$secret) && strlen(self::$secret))) {
+        if (!(is_string(self::$identifier) && strlen(self::$identifier))) {
             throw new MissingIdentifierException();
         }
     }
