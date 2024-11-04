@@ -15,34 +15,27 @@ try {
     Nuke::setIdentifier($nukeIdentifier);
     Nuke::setSecret($nukeSecret);
 
-    // Request details.
+    // Request simulation, this will come from the Nuke API.
     $_POST = [
         'event' => [
-            'type' => WebhookNukeEvent::getName(),
+            'type' => WebhookNukeEvent::getType(),
             'data' => [
                 'token' => bin2hex(random_bytes(128)),
             ],
         ],
     ];
-
-    // Request simulation, this will come from the Nuke API.
-    $payload = $_POST;
-    $headers = [
-        Nuke::HEADER_X_NUKE_IDENTIFIER => Nuke::$identifier,
-        Nuke::HEADER_X_NUKE_SIGNATURE => Nuke::getSignature(time(), $payload),
+    $_SERVER = [
+        'HTTP_' . Nuke::HEADER_X_NUKE_IDENTIFIER => Nuke::$identifier,
+        'HTTP_' . Nuke::HEADER_X_NUKE_SIGNATURE => Nuke::getSignature(time(), $_POST),
     ];
 
-    // Validate request to make sure it's from the Nuke API.
-    Nuke::verifyIdentifierAndSignature(
-        $headers[Nuke::HEADER_X_NUKE_IDENTIFIER],
-        $headers[Nuke::HEADER_X_NUKE_SIGNATURE],
-        $payload
-    );
-
     // Event construct which will return a WebhookNukeEvent class.
-    $event = Event::construct($payload);
+    // This will also validate the request through Nuke::verifyIdentifierAndSignature.
+    // Because of that it can throw exceptions.
+    $event = Event::construct(WebhookNukeEvent::class);
 
     // Implement your nuke actions.
+    // The $event->token is the token you saved against your user id.
 
     // Response.
     echo 'Headers: ' . json_encode(['Status-Code' => '204 No Content',], JSON_PRETTY_PRINT) . "\n";

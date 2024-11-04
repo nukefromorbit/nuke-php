@@ -15,27 +15,17 @@ try {
     Nuke::setIdentifier($nukeIdentifier);
     Nuke::setSecret($nukeSecret);
 
-    // Request details.
+    // Request simulation, this will come from the Nuke App.
     $_GET = [
-        'redirect_uri' => 'https://app.nuke.app/',
+        'redirect_uri' => Nuke::APP_URL,
         'nuke_identifier' => Nuke::$identifier,
         'nuke_token' => Nuke::encrypt(bin2hex(random_bytes(64))),
     ];
 
-    // Request simulation, this will come from the Nuke App.
-    // This will be a normal browser request, you will have to build the payload from the GET query parameters.
-    $payload = [
-        'event' => [
-            'type' => BrowserAuthorizeEvent::getName(),
-            'data' => $_GET,
-        ],
-    ];
-
     // Event construct which will return an BrowserAuthorizeEvent class.
-    $event = Event::construct($payload);
-
-    // Validate event state to make sure it's encrypted with the known key.
-    Nuke::decrypt($event->nuke_token);
+    // This will also validate the request through Nuke::decrypt.
+    // Because of that it can throw exceptions.
+    $event = Event::construct(BrowserAuthorizeEvent::class);
 
     // This token will be used to confirm the authorize, revoke access and perform Nuke actions.
     // You will have to internally save this token against the user.

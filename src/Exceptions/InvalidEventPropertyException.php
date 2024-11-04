@@ -4,6 +4,6 @@ namespace Nuke\Exceptions;
 
 use Exception;
 
-class MissingEventPropertyException extends Exception
+class InvalidEventPropertyException extends Exception
 {
 }

@@ -140,21 +140,21 @@ class Crypt
     /**
      * Check if the key is valid
      *
-     * @param string $key
+     * @param mixed $key
      * @return bool
      */
-    protected static function isKeyValid(#[\SensitiveParameter] string $key): bool
+    protected static function isKeyValid(#[\SensitiveParameter] mixed $key): bool
     {
-        return mb_strlen($key, '8bit') === self::SIZE;
+        return is_string($key) && mb_strlen($key, '8bit') === self::SIZE;
     }
 
     /**
      * Check if the payload is valid
      *
-     * @param array $payload
+     * @param mixed $payload
      * @return bool
      */
-    protected static function isPayloadValid(#[\SensitiveParameter] array $payload): bool
+    protected static function isPayloadValid(#[\SensitiveParameter] mixed $payload): bool
     {
         foreach (['iv', 'value', 'mac',] as $key) {
             if (!is_string($payload[$key] ?? null)) {

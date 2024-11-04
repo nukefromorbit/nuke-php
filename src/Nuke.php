@@ -13,6 +13,9 @@ use Nuke\Exceptions\CryptInvalidPayloadException;
 
 class Nuke
 {
+    public const APP_URL = 'https://app.nuke.app';
+    public const APP_AUTHORIZE_URL = 'https://app.nuke.app/authorize';
+
     public const HEADER_X_NUKE_IDENTIFIER = 'X-Nuke-Identifier';
     public const HEADER_X_NUKE_SIGNATURE = 'X-Nuke-Signature';
 

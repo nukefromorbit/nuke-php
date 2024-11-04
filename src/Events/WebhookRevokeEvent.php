@@ -4,7 +4,7 @@ namespace Nuke\Events;
 
 class WebhookRevokeEvent extends AbstractEvent
 {
-    private const NAME = 'revoke';
+    private const TYPE = 'revoke';
 
     /**
      * @var string|null
@@ -14,8 +14,8 @@ class WebhookRevokeEvent extends AbstractEvent
     /**
      * @inheritDoc
      */
-    public static function getName(): string
+    public static function getType(): string
     {
-        return self::NAME;
+        return self::TYPE;
     }
 }

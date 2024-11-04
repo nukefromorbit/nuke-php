@@ -4,7 +4,7 @@ namespace Nuke\Events;
 
 class WebhookNukeEvent extends AbstractEvent
 {
-    private const NAME = 'nuke';
+    private const TYPE = 'nuke';
 
     /**
      * @var string|null
@@ -14,8 +14,8 @@ class WebhookNukeEvent extends AbstractEvent
     /**
      * @inheritDoc
      */
-    public static function getName(): string
+    public static function getType(): string
     {
-        return self::NAME;
+        return self::TYPE;
     }
 }

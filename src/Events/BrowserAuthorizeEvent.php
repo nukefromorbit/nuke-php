@@ -4,7 +4,7 @@ namespace Nuke\Events;
 
 class BrowserAuthorizeEvent extends AbstractEvent
 {
-    private const NAME = 'authorize';
+    private const TYPE = 'authorize';
 
     /**
      * @var string|null
@@ -24,8 +24,8 @@ class BrowserAuthorizeEvent extends AbstractEvent
     /**
      * @inheritDoc
      */
-    public static function getName(): string
+    public static function getType(): string
     {
-        return self::NAME;
+        return self::TYPE;
     }
 }

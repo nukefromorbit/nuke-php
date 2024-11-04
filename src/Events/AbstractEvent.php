@@ -5,9 +5,9 @@ namespace Nuke\Events;
 abstract class AbstractEvent
 {
     /**
-     * Get Event Name
+     * Get Event Type
      *
      * @return string
      */
-    abstract public static function getName(): string;
+    abstract public static function getType(): string;
 }
