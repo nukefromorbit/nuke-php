@@ -36,6 +36,9 @@ jobs:
   tests:
     runs-on: ubuntu-latest
 
+    env:
+      XDEBUG_MODE: coverage
+
     steps:
       - uses: actions/checkout@v4
 
@@ -46,7 +49,7 @@ jobs:
         uses: php-actions/phpunit@v3
         with:
           php_version: 8.2
-          php_extensions: mbstring openssl
+          php_extensions: mbstring openssl xdebug
           test_suffix: "Test.php"
           configuration: phpunit.xml
           args: --coverage-clover .phpunit.coverage-clover
