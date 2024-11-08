@@ -1,6 +1,7 @@
 .idea/
 /vendor/
 .phpunit.cache
-.phpunit.coverage-html
+.phpunit.coverage-*
 .php-cs-fixer.cache
 .composer.lock
+clover.xml

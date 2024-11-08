@@ -49,8 +49,10 @@ jobs:
           php_extensions: mbstring openssl
           test_suffix: "Test.php"
           configuration: phpunit.xml
+          args: --coverage-clover .phpunit.coverage-clover
 
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         with:
+          file: .phpunit.coverage-clover
           flag-name: php-8.2-${{ matrix.env }}
