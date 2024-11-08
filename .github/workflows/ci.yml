@@ -24,8 +24,8 @@ jobs:
       - name: PHP Code Sniffer
         uses: php-actions/phpcs@v1
         with:
-          php_version: 8.1
-          path: lib/ tests/ examples/
+          php_version: 8.2
+          path: lib/,tests/,examples/
           standard: phpcs.xml
 
       - name: PHP CS Fixer
@@ -45,6 +45,6 @@ jobs:
       - name: PHPUnit
         uses: php-actions/phpunit@v3
         with:
-          php_version: 8.1
+          php_version: 8.2
           php_extensions: mbstring openssl
           configuration: phpunit.xml
