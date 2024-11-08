@@ -25,7 +25,7 @@ jobs:
         uses: php-actions/phpcs@v1
         with:
           php_version: 8.2
-          path: lib/,tests/,examples/
+          path: --config-set installed_paths lib/,tests/,examples/
           standard: phpcs.xml
 
       - name: PHP CS Fixer
