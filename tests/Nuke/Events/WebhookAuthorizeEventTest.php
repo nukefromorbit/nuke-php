@@ -40,7 +40,7 @@ final class WebhookAuthorizeEventTest extends TestCase
         Nuke::setSecret(self::NUKE_SECRET);
 
         $_POST = [
-            'type' => WebhookAuthorizeEvent::getType(),
+            'event' => ['type' => WebhookAuthorizeEvent::getType(),],
         ];
         $_SERVER = [
             'HTTP_' . Nuke::HEADER_X_NUKE_IDENTIFIER => Nuke::$identifier,
