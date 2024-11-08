@@ -58,4 +58,4 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           file: .phpunit.coverage-clover
-          flag-name: php-8.2-${{ matrix.env }}
+          flag-name: php-8.2
