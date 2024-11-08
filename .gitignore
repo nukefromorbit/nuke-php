@@ -3,5 +3,5 @@
 .phpunit.cache
 .phpunit.coverage-*
 .php-cs-fixer.cache
-.composer.lock
+composer.lock
 clover.xml
