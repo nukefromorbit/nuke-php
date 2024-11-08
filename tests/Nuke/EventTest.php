@@ -8,7 +8,7 @@ use Nuke\Events\WebhookNukeEvent;
 use Nuke\Events\WebhookRevokeEvent;
 use Nuke\Exceptions\InvalidEventClassException;
 use Nuke\Exceptions\InvalidEventPropertyException;
-use Nuke\Exceptions\MissingSecretException;
+use Nuke\Exceptions\MissingIdentifierException;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -27,19 +27,19 @@ final class EventTest extends TestCase
 
     public function testConstructWebhookAuthorizeEvent(): void
     {
-        $this->expectException(MissingSecretException::class);
+        $this->expectException(MissingIdentifierException::class);
         Event::construct(WebhookAuthorizeEvent::class);
     }
 
     public function testConstructWebhookRevokeEvent(): void
     {
-        $this->expectException(MissingSecretException::class);
+        $this->expectException(MissingIdentifierException::class);
         Event::construct(WebhookRevokeEvent::class);
     }
 
     public function testConstructWebhookNukeEvent(): void
     {
-        $this->expectException(MissingSecretException::class);
+        $this->expectException(MissingIdentifierException::class);
         Event::construct(WebhookNukeEvent::class);
     }
 
