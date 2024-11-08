@@ -1,5 +1,10 @@
 # nuke-php
 
+[![Build Status](https://github.com/nukefromorbit/nuke-php/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/nukefromorbit/nuke-php/actions?query=branch%3Amain)
+[![Latest Stable Version](https://poser.pugx.org/nukefromorbit/nuke-php/v/stable.svg)](https://packagist.org/packages/nukefromorbit/nuke-php)
+[![License](https://poser.pugx.org/nukefromorbit/nuke-php/license.svg)](https://packagist.org/packages/nukefromorbit/nuke-php)
+[![Code Coverage](https://coveralls.io/repos/nukefromorbit/nuke-php/badge.svg?branch=main)](https://coveralls.io/r/nukefromorbit/nuke-php?branch=main)
+
 ## Domain Verify
 
 - .well-known file
