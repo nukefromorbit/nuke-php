@@ -34,6 +34,23 @@ final class WebhookRevokeEventTest extends TestCase
         Event::construct(WebhookRevokeEvent::class);
     }
 
+    public function testInvalidEventPropertyTokenException(): void
+    {
+        Nuke::setIdentifier(self::NUKE_IDENTIFIER);
+        Nuke::setSecret(self::NUKE_SECRET);
+
+        $_POST = [
+            'type' => WebhookRevokeEvent::getType(),
+        ];
+        $_SERVER = [
+            'HTTP_' . Nuke::HEADER_X_NUKE_IDENTIFIER => Nuke::$identifier,
+            'HTTP_' . Nuke::HEADER_X_NUKE_SIGNATURE => Nuke::getSignature(time(), $_POST),
+        ];
+
+        $this->expectException(InvalidEventPropertyException::class);
+        Event::construct(WebhookRevokeEvent::class);
+    }
+
     public function testConstruct(): void
     {
         Nuke::setIdentifier(self::NUKE_IDENTIFIER);

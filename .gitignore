@@ -3,3 +3,4 @@
 .phpunit.cache
 .phpunit.coverage-html
 .php-cs-fixer.cache
+.composer.lock

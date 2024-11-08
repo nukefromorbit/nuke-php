@@ -44,6 +44,54 @@ final class BrowserAuthorizeEventTest extends TestCase
         Event::construct(BrowserAuthorizeEvent::class);
     }
 
+    public function testInvalidEventPropertyNukeIdentifierException(): void
+    {
+        Nuke::setIdentifier(self::NUKE_IDENTIFIER);
+        Nuke::setSecret(self::NUKE_SECRET);
+
+        /** @noinspection PhpArrayWriteIsNotUsedInspection */
+        $_GET = [
+            'type' => BrowserAuthorizeEvent::getType(),
+            'source' => BrowserAuthorizeEvent::SOURCE_NUKE,
+        ];
+
+        $this->expectException(InvalidEventPropertyException::class);
+        Event::construct(BrowserAuthorizeEvent::class);
+    }
+
+    public function testInvalidEventPropertyNukeTokenException(): void
+    {
+        Nuke::setIdentifier(self::NUKE_IDENTIFIER);
+        Nuke::setSecret(self::NUKE_SECRET);
+
+        /** @noinspection PhpArrayWriteIsNotUsedInspection */
+        $_GET = [
+            'type' => BrowserAuthorizeEvent::getType(),
+            'source' => BrowserAuthorizeEvent::SOURCE_NUKE,
+            'nuke_identifier' => Nuke::$identifier,
+        ];
+
+        $this->expectException(InvalidEventPropertyException::class);
+        Event::construct(BrowserAuthorizeEvent::class);
+    }
+
+    public function testInvalidEventPropertyRedirectUriException(): void
+    {
+        Nuke::setIdentifier(self::NUKE_IDENTIFIER);
+        Nuke::setSecret(self::NUKE_SECRET);
+
+        /** @noinspection PhpArrayWriteIsNotUsedInspection */
+        $_GET = [
+            'type' => BrowserAuthorizeEvent::getType(),
+            'source' => BrowserAuthorizeEvent::SOURCE_NUKE,
+            'nuke_identifier' => Nuke::$identifier,
+            'nuke_token' => bin2hex(random_bytes(64)),
+        ];
+
+        $this->expectException(InvalidEventPropertyException::class);
+        Event::construct(BrowserAuthorizeEvent::class);
+    }
+
     public function testConstruct(): void
     {
         Nuke::setIdentifier(self::NUKE_IDENTIFIER);

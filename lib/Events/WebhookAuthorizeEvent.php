@@ -41,7 +41,11 @@ class WebhookAuthorizeEvent extends AbstractEvent
             throw new InvalidEventPropertyException('event.type');
         }
 
-        $this->token = ($data['event']['data']['token'] ?? null);
+        if (!is_string($data['event']['data']['token'] ?? null) || !strlen($data['event']['data']['token'])) {
+            throw new InvalidEventPropertyException('event.data.token');
+        }
+
+        $this->token = $data['event']['data']['token'];
 
         return $this;
     }

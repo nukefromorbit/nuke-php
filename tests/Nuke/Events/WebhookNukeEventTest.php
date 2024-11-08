@@ -34,6 +34,23 @@ final class WebhookNukeEventTest extends TestCase
         Event::construct(WebhookNukeEvent::class);
     }
 
+    public function testInvalidEventPropertyTokenException(): void
+    {
+        Nuke::setIdentifier(self::NUKE_IDENTIFIER);
+        Nuke::setSecret(self::NUKE_SECRET);
+
+        $_POST = [
+            'type' => WebhookNukeEvent::getType(),
+        ];
+        $_SERVER = [
+            'HTTP_' . Nuke::HEADER_X_NUKE_IDENTIFIER => Nuke::$identifier,
+            'HTTP_' . Nuke::HEADER_X_NUKE_SIGNATURE => Nuke::getSignature(time(), $_POST),
+        ];
+
+        $this->expectException(InvalidEventPropertyException::class);
+        Event::construct(WebhookNukeEvent::class);
+    }
+
     public function testConstruct(): void
     {
         Nuke::setIdentifier(self::NUKE_IDENTIFIER);
