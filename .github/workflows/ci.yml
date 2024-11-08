@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  workflow_dispatch: { }
+  push:
+    branches:
+      - main
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+*
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Composer install
+        uses: php-actions/composer@v6
+
+      - name: PHP Code Sniffer
+        uses: php-actions/phpcs@v1
+        with:
+          php_version: 8.1
+          path: .
+          standard: phpcs.xml
+
+      - name: PHP-CS-Fixer
+          uses: docker://oskarstark/php-cs-fixer-ga
+          with:
+            args: --config=.php-cs-fixer.php
+
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Composer install
+        uses: php-actions/composer@v6
+
+      - name: PHPUnit
+        uses: php-actions/phpunit@v3
+        with:
+          php_version: 8.1
+          php_extensions: mbstring openssl
+          configuration: phpunit.xml

@@ -5,6 +5,7 @@
     "nuke",
     "nuke from orbit"
   ],
+  "license": "MIT",
   "homepage": "https://nuke.app/",
   "authors": [
     {
