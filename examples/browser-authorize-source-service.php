@@ -27,9 +27,9 @@ try {
     $payload = [
         'type' => BrowserAuthorizeEvent::getType(),
         'source' => BrowserAuthorizeEvent::SOURCE_SERVICE,
-        'redirect_uri' => 'https://your-service.tld',
         'nuke_identifier' => Nuke::$identifier,
         'service_token' => Nuke::encrypt($token),
+        'redirect_uri' => 'https://your-service.tld',
     ];
 
     echo 'Redirect: ' . Nuke::APP_AUTHORIZE_URL . '?' . http_build_query($payload) . "\n";

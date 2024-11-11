@@ -19,9 +19,9 @@ try {
     $_GET = [
         'type' => BrowserAuthorizeEvent::getType(),
         'source' => BrowserAuthorizeEvent::SOURCE_NUKE,
-        'redirect_uri' => Nuke::APP_URL,
         'nuke_identifier' => Nuke::$identifier,
         'nuke_token' => Nuke::encrypt(bin2hex(random_bytes(64))),
+        'redirect_uri' => Nuke::APP_URL,
     ];
 
     // Event construct which will return an BrowserAuthorizeEvent class.
@@ -42,9 +42,9 @@ try {
     $payload = [
         'type' => $event::getType(),
         'source' => $event->source,
-        'service_token' => Nuke::encrypt($token),
         'nuke_identifier' => $event->nuke_identifier,
         'nuke_token' => $event->nuke_token,
+        'service_token' => Nuke::encrypt($token),
     ];
 
     echo 'Redirect: ' . $event->redirect_uri . '?' . http_build_query($payload) . "\n";
