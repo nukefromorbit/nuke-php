@@ -40,6 +40,8 @@ try {
 
     // Response, this will be a redirect with http_build_query to the redirect_uri.
     $payload = [
+        'type' => $event::getType(),
+        'source' => $event->source,
         'service_token' => Nuke::encrypt($token),
         'nuke_identifier' => $event->nuke_identifier,
         'nuke_token' => $event->nuke_token,
