@@ -3,6 +3,8 @@
 require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 use Nuke\Nuke;
+use Nuke\Event;
+use Nuke\Events\BrowserAuthorizeEvent;
 
 try {
     // Randomly generated.
@@ -13,6 +15,20 @@ try {
     Nuke::setIdentifier($nukeIdentifier);
     Nuke::setSecret($nukeSecret);
 
+    // Request simulation, this will come from the Nuke App.
+    $_GET = [
+        'type' => BrowserAuthorizeEvent::getType(),
+        'source' => BrowserAuthorizeEvent::SOURCE_NUKE,
+        'redirect_uri' => Nuke::APP_URL,
+        'nuke_identifier' => Nuke::$identifier,
+        'nuke_token' => Nuke::encrypt(bin2hex(random_bytes(64))),
+    ];
+
+    // Event construct which will return an BrowserAuthorizeEvent class.
+    // This will also validate the request through Nuke::decrypt.
+    // Because of that it can throw exceptions.
+    $event = Event::construct(BrowserAuthorizeEvent::class);
+
     // This token will be used to confirm the authorize, revoke access and perform Nuke actions.
     // You will have to internally save this token against the user.
     $token = bin2hex(random_bytes(128));
@@ -22,14 +38,14 @@ try {
     // This will allow you to identify the user faster for the nuke, revoke, etc... events
     // and verify the token against it.
 
-    // Request simulation, this will come from your service.
+    // Response, this will be a redirect with http_build_query to the redirect_uri.
     $payload = [
-        'redirect_uri' => 'https://your-service.tld',
-        'nuke_identifier' => Nuke::$identifier,
         'service_token' => Nuke::encrypt($token),
+        'nuke_identifier' => $event->nuke_identifier,
+        'nuke_token' => $event->nuke_token,
     ];
 
-    echo 'Redirect: ' . Nuke::APP_AUTHORIZE_URL . '?' . http_build_query($payload) . "\n";
+    echo 'Redirect: ' . $event->redirect_uri . '?' . http_build_query($payload) . "\n";
 } catch (Exception $e) {
     echo get_class($e) . ': ' . $e->getMessage() . "\n";
 }
