@@ -15,19 +15,19 @@ use Nuke\Exceptions\CryptInvalidPayloadException;
 #[CoversClass(Crypt::class)]
 final class CryptTest extends TestCase
 {
-    private const NUKE_SECRET = '7df8fc9466a07da2710af3b5514e4403faecc3df54908c5b6c5214158d24cb1e';
+    private const NUKE_SECRET = 'GvFyG1eeaxyjVmFAWhCI6f8DZsYZch1rux3iFyBYgxU=';
 
     public function testEncryptCryptInvalidKeyException(): void
     {
         $this->expectException(CryptInvalidKeyException::class);
-        Crypt::encrypt('my-secret-value', bin2hex(random_bytes(2)));
+        Crypt::encrypt('my-secret-value', base64_encode(random_bytes(2)));
     }
 
     public function testDecryptCryptInvalidKeyException(): void
     {
         $this->expectException(CryptInvalidKeyException::class);
         $encrypt = Crypt::encrypt('my-secret-value', self::NUKE_SECRET);
-        Crypt::decrypt($encrypt, bin2hex(random_bytes(2)));
+        Crypt::decrypt($encrypt, base64_encode(random_bytes(2)));
     }
 
     public function testDecryptCryptInvalidPayloadException(): void

@@ -28,7 +28,7 @@ class Crypt
      */
     public static function encrypt(#[\SensitiveParameter] mixed $value, #[\SensitiveParameter] string $key): string
     {
-        $key = hex2bin($key);
+        $key = base64_decode($key);
 
         if (!self::isKeyValid($key)) {
             throw new CryptInvalidKeyException();
@@ -73,7 +73,7 @@ class Crypt
      */
     public static function decrypt(string $payload, #[\SensitiveParameter] string $key): string
     {
-        $key = hex2bin($key);
+        $key = base64_decode($key);
 
         if (!self::isKeyValid($key)) {
             throw new CryptInvalidKeyException();

@@ -7,8 +7,8 @@ use Nuke\Events\BrowserAuthorizeEvent;
 
 try {
     // Randomly generated.
-    $nukeIdentifier = bin2hex(random_bytes(16));
-    $nukeSecret = bin2hex(random_bytes(32));
+    $nukeIdentifier = base64_encode(random_bytes(16));
+    $nukeSecret = base64_encode(random_bytes(32));
 
     // Initialize Nuke Service.
     Nuke::setIdentifier($nukeIdentifier);
@@ -16,7 +16,7 @@ try {
 
     // This token will be used to confirm the authorize, revoke access and perform Nuke actions.
     // You will have to internally save this token against the user.
-    $token = bin2hex(random_bytes(128));
+    $token = base64_encode(random_bytes(128));
 
     // Tip: You can generate a random token and send it as
     // Nuke::encrypt(json_encode(['user_id' => ..., 'token' => $token,])).

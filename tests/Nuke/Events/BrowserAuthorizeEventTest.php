@@ -16,8 +16,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[UsesClass(Crypt::class)]
 final class BrowserAuthorizeEventTest extends TestCase
 {
-    private const NUKE_IDENTIFIER = '85cc991a23025910772a5fc7f42b3387';
-    private const NUKE_SECRET = '7df8fc9466a07da2710af3b5514e4403faecc3df54908c5b6c5214158d24cb1e';
+    private const NUKE_IDENTIFIER = '6lMyeWiyWZYeA1hBbtrtgGNQXMKbD9fV';
+    private const NUKE_SECRET = 'GvFyG1eeaxyjVmFAWhCI6f8DZsYZch1rux3iFyBYgxU=';
 
     public function testInvalidEventPropertyTypeException(): void
     {
@@ -85,7 +85,7 @@ final class BrowserAuthorizeEventTest extends TestCase
             'type' => BrowserAuthorizeEvent::getType(),
             'source' => BrowserAuthorizeEvent::SOURCE_NUKE,
             'nuke_identifier' => Nuke::$identifier,
-            'nuke_token' => bin2hex(random_bytes(64)),
+            'nuke_token' => base64_encode(random_bytes(64)),
         ];
 
         $this->expectException(InvalidEventPropertyException::class);
@@ -97,7 +97,7 @@ final class BrowserAuthorizeEventTest extends TestCase
         Nuke::setIdentifier(self::NUKE_IDENTIFIER);
         Nuke::setSecret(self::NUKE_SECRET);
 
-        $token = bin2hex(random_bytes(64));
+        $token = base64_encode(random_bytes(64));
         /** @noinspection PhpArrayWriteIsNotUsedInspection */
         $_GET = [
             'type' => BrowserAuthorizeEvent::getType(),

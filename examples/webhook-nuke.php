@@ -8,8 +8,8 @@ use Nuke\Events\WebhookNukeEvent;
 
 try {
     // Randomly generated.
-    $nukeIdentifier = bin2hex(random_bytes(16));
-    $nukeSecret = bin2hex(random_bytes(32));
+    $nukeIdentifier = base64_encode(random_bytes(16));
+    $nukeSecret = base64_encode(random_bytes(32));
 
     // Initialize Nuke Service.
     Nuke::setIdentifier($nukeIdentifier);
@@ -20,7 +20,7 @@ try {
         'event' => [
             'type' => WebhookNukeEvent::getType(),
             'data' => [
-                'token' => bin2hex(random_bytes(128)),
+                'token' => base64_encode(random_bytes(128)),
             ],
         ],
     ];

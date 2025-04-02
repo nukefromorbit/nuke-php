@@ -14,8 +14,8 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(Crypt::class)]
 final class NukeTest extends TestCase
 {
-    private const NUKE_IDENTIFIER = '85cc991a23025910772a5fc7f42b3387';
-    private const NUKE_SECRET = '7df8fc9466a07da2710af3b5514e4403faecc3df54908c5b6c5214158d24cb1e';
+    private const NUKE_IDENTIFIER = '6lMyeWiyWZYeA1hBbtrtgGNQXMKbD9fV';
+    private const NUKE_SECRET = 'GvFyG1eeaxyjVmFAWhCI6f8DZsYZch1rux3iFyBYgxU=';
 
     public function testGetSignatureMissingSecretException(): void
     {
