@@ -24,7 +24,7 @@ jobs:
       - name: PHP Code Sniffer
         uses: php-actions/phpcs@v1
         with:
-          php_version: 8.2
+          php_version: 8.3
           path: ""
           standard: phpcs.xml
 
@@ -48,7 +48,7 @@ jobs:
       - name: PHPUnit
         uses: php-actions/phpunit@v3
         with:
-          php_version: 8.2
+          php_version: 8.3
           php_extensions: mbstring openssl xdebug
           test_suffix: "Test.php"
           configuration: phpunit.xml
@@ -58,4 +58,4 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           file: .phpunit.coverage-clover
-          flag-name: php-8.2
+          flag-name: php-8.3
